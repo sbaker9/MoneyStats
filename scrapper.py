@@ -2,11 +2,11 @@
 #!/usr/bin/env python3
 
 
-#from io import StringIO
+from io import StringIO
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
-#import pandas as pd
+import pandas as pd
 
 
 """
@@ -60,15 +60,39 @@ def get_text(url, css_id):
     finally:
         browser.quit()
 
+def get_dataframe(url, css_id, column_names):
+    """
+    :param url: url to load
+    :param css_id: id of element to select
+    :param column_names: column names for dataframe
+    :return: dataframe
+    """
+
+    # read from local data file
+    # this can be handy during development
+    # df = pd.read_csv('./data/banknifty_29nov2018_octable.txt', sep=' ', names=column_names, skiprows=10)
+
+    # read from web
+    text = get_text(url, css_id)
+    # https://stackoverflow.com/questions/20696479/pandas-read-csv-from-string-or-package-data
+    df = pd.read_csv(StringIO(text), dtype=object, sep=' ', names=column_names, skiprows=10)
+
+    return df
+
 if __name__ == '__main__':
 
     stock_symbol = 'nflx'
     url = url(stock_symbol)
     print(url)
 
-    data = get_text(url, 'left-column-div')
-    print(data)
+    css_id = 'left-column-div'
 
+    #data = get_text(url, css_id)
+    #print(data)
 
+    column_names = []
+
+    df = get_dataframe(url, css_id, column_names)
+    print(df)
 
 
