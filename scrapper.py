@@ -1,6 +1,4 @@
-
 #!/usr/bin/env python3
-
 
 from io import StringIO
 from selenium import webdriver
@@ -27,6 +25,7 @@ def url(stock_symbol):
 
     url_string = base_url + path
     return url_string
+
 
 def get_text(url, css_id):
     """
@@ -60,6 +59,7 @@ def get_text(url, css_id):
     finally:
         browser.quit()
 
+
 def get_dataframe(url, css_id, column_names):
     """
     :param url: url to load
@@ -78,6 +78,7 @@ def get_dataframe(url, css_id, column_names):
     df = pd.read_csv(StringIO(text), dtype=object, sep=' ', names=column_names, skiprows=10)
 
     return df
+
 
 if __name__ == '__main__':
 
