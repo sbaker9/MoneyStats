@@ -15,10 +15,8 @@ https://github.com/beepscore/websearcher
 
 def url(stock_symbol):
     """
-    date_string of the form ddMONyyyy e.g. 25OCT2018, 31JAN2019
-    When requesting options, must be in the future.
-    Must be a valid option expiration date for that stock.
-    return url
+    return string representing url
+    e.g. 'https://www.nasdaq.com/symbol/nflx/financials'
     """
     base_url = 'https://www.nasdaq.com'
     path = '/symbol/' + stock_symbol + '/financials'
@@ -70,7 +68,7 @@ def get_dataframe(url, css_id, column_names):
 
     # read from local data file
     # this can be handy during development
-    # df = pd.read_csv('./data/banknifty_29nov2018_octable.txt', sep=' ', names=column_names, skiprows=10)
+    # df = pd.read_csv('./data/data.txt', sep=' ', names=column_names, skiprows=10)
 
     # read from web
     text = get_text(url, css_id)
