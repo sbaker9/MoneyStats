@@ -48,7 +48,10 @@ def get_text(url, css_id):
 
         WebDriverWait(browser, 20).until(lambda d: d.find_element_by_id(css_id).is_displayed())
         element = browser.find_element_by_id(css_id)
-        return element.text
+
+        html = element.get_attribute('innerHTML')
+        # return element.text
+        return html
 
     except TimeoutException:
         print("TimeoutException, returning empty string")
@@ -80,7 +83,8 @@ def get_dataframe(url, css_id, column_names):
     print('text:\n', text)
 
     # https://stackoverflow.com/questions/20696479/pandas-read-csv-from-string-or-package-data
-    df = pd.read_csv(StringIO(text), dtype=object, sep=' ', names=column_names, skiprows=10)
+    # df = pd.read_csv(StringIO(text), dtype=object, sep=' ', names=column_names, skiprows=10)
+    df = pd.read_html(text)
 
     return df
 
