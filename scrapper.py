@@ -41,6 +41,11 @@ def get_text(url, css_id):
     try:
         # http://stackoverflow.com/questions/37422832/waiting-for-a-page-to-load-in-selenium-firefox-w-python?lq=1
         # http://stackoverflow.com/questions/5868439/wait-for-page-load-in-selenium
+
+        # alternatively select by a class, may be useful if a unique div is not available.
+        # WebDriverWait(browser, 20).until(lambda d: d.find_elements_by_class_name(css_selector).is_displayed())
+        # element = browser.find_elements_by_class_name(css_selector)[0]
+
         WebDriverWait(browser, 20).until(lambda d: d.find_element_by_id(css_id).is_displayed())
         element = browser.find_element_by_id(css_id)
         return element.text
@@ -72,6 +77,8 @@ def get_dataframe(url, css_id, column_names):
 
     # read from web
     text = get_text(url, css_id)
+    print('text:\n', text)
+
     # https://stackoverflow.com/questions/20696479/pandas-read-csv-from-string-or-package-data
     df = pd.read_csv(StringIO(text), dtype=object, sep=' ', names=column_names, skiprows=10)
 
@@ -84,10 +91,8 @@ if __name__ == '__main__':
     url = url(stock_symbol)
     print(url)
 
-    css_id = 'left-column-div'
-
-    #data = get_text(url, css_id)
-    #print(data)
+    # css_id = 'left-column-div'
+    css_id = 'financials-iframe-wrap'
 
     column_names = []
 
