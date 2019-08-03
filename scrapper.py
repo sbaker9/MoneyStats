@@ -73,18 +73,22 @@ def get_dataframe(url, css_id, column_names):
     :return: dataframe
     """
 
-    # read from local data file
+    # to read from local data file, uncomment these.
     # this can be handy during development
-    # df = pd.read_csv('./data/data.txt', sep=' ', names=column_names, skiprows=10)
-    # df = pd.read_html('./data/html.html')
+    dataframes = pd.read_html('./data/html.html', header=0, index_col=0, skiprows=0)
 
-    # read from web
-    html = get_html(url, css_id)
-    print('html:\n', html)
+    # FIXME: html has dollar amounts but dataframes don't
 
-    # read_html returns a list of dataframes
-    dataframes = pd.read_html(html)
+    # to read from web, uncomment these
+    # html = get_html(url, css_id)
+    # print('html:\n', html)
+    # dataframes = pd.read_html(html, header=0, index_col=0, skiprows=0)
+
+    # read_html returns a list of dataframes, get the first one
     df = dataframes[0]
+
+    # slice first 6 columns. careful this deleted dollar amounts!
+    # df = df.iloc[:, 0:5]
 
     return df
 
@@ -95,7 +99,6 @@ if __name__ == '__main__':
     url = url(stock_symbol)
     print(url)
 
-    # css_id = 'left-column-div'
     css_id = 'financials-iframe-wrap'
 
     column_names = []
