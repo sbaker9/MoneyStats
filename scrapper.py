@@ -25,13 +25,13 @@ def url(stock_symbol):
     return url_string
 
 
-def get_text(url, css_id):
+def get_html(url, css_id):
     """
     Uses browser to request info.
     Waits for javascript to run and return html. Selects by css_id.
     :param url: url to load
     :param css_id: id of page html element to select
-    return string. return empty string if timeout or error
+    return html. return empty string if timeout or error
     """
 
     browser = webdriver.Chrome()
@@ -50,7 +50,6 @@ def get_text(url, css_id):
         element = browser.find_element_by_id(css_id)
 
         html = element.get_attribute('innerHTML')
-        # return element.text
         return html
 
     except TimeoutException:
@@ -77,14 +76,15 @@ def get_dataframe(url, css_id, column_names):
     # read from local data file
     # this can be handy during development
     # df = pd.read_csv('./data/data.txt', sep=' ', names=column_names, skiprows=10)
+    # df = pd.read_html('./data/html.html')
 
     # read from web
-    text = get_text(url, css_id)
-    print('text:\n', text)
+    html = get_html(url, css_id)
+    print('html:\n', html)
 
-    # https://stackoverflow.com/questions/20696479/pandas-read-csv-from-string-or-package-data
-    # df = pd.read_csv(StringIO(text), dtype=object, sep=' ', names=column_names, skiprows=10)
-    df = pd.read_html(text)
+    # read_html returns a list of dataframes
+    dataframes = pd.read_html(html)
+    df = dataframes[0]
 
     return df
 
@@ -101,6 +101,9 @@ if __name__ == '__main__':
     column_names = []
 
     df = get_dataframe(url, css_id, column_names)
+    # write dataframe to a csv file
+    df.to_csv('./data/data.csv')
+
     print(df)
 
 
