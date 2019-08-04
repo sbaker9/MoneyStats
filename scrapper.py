@@ -84,6 +84,16 @@ def get_dataframe(url, css_id):
     # read_html returns a list of dataframes, get the first one
     df = dataframes[0]
 
+    df = cleaned_df(df)
+
+    return df
+
+
+def cleaned_df(df):
+    """
+    :param df: dataframe from read_html
+    :return: dataframe with 4 columns containing amounts in thousands of dollars $000
+    """
     # drop rows with all values NaN (Not A Number)
     df = df.dropna(how='all')
 
@@ -95,7 +105,6 @@ def get_dataframe(url, css_id):
 
     # the dollar amounts are in columns "Unnamed:25 through Unnamed:28
     # slice to keep columns with dollar amounts
-    # df = df.loc[:, "Trend":"Unnamed: 24"]
     df = df.loc[:, "Unnamed: 25": 'Unnamed: 28']
     # re-add column names
     df.columns = column_names
