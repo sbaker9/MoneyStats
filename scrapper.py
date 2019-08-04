@@ -50,18 +50,16 @@ def get_balance_sheet_url(stock_symbol):
     return url_string
 
 
-def get_html_from_web(stock_symbol):
+def get_html_from_web(url):
     """
     Uses browser to request info.
     Waits for javascript to run and return html. Selects by css_id.
     :param url: url to load
-    :param css_id: id of page html element to select
     return html. return empty string if timeout or error
     """
 
     browser = webdriver.Chrome()
 
-    url = get_url(stock_symbol)
     browser.get(url)
 
     try:
@@ -107,14 +105,13 @@ def get_dataframe_from_file(filename):
     return df
 
 
-def get_income_df_from_web(stock_symbol):
+def get_df_from_web(url):
     """
     constructs a url from stock_symbol, downloads web page, returns dataframe
-    :param stock_symbol: e.g. 'nflx'
-    :return: a pandas dataframe containing income
+    :param url: nasdaq url containing a stock symbol
+    :return: a pandas dataframe
     """
 
-    url = get_income_url(stock_symbol)
     html = get_html_from_web(url)
     dataframes = pd.read_html(html, header=0, index_col=0, skiprows=0)
 
@@ -123,6 +120,26 @@ def get_income_df_from_web(stock_symbol):
 
     df_cleaned = cleaned_df(df0)
     return df_cleaned
+
+
+def get_balance_sheet_df_from_web(stock_symbol):
+    """
+    constructs a url from stock_symbol, downloads web page, returns dataframe
+    :param stock_symbol: e.g. 'nflx'
+    :return: a pandas dataframe containing balance sheet
+    """
+    url = get_balance_sheet_url(stock_symbol)
+    return get_df_from_web(url)
+
+
+def get_income_df_from_web(stock_symbol):
+    """
+    constructs a url from stock_symbol, downloads web page, returns dataframe
+    :param stock_symbol: e.g. 'nflx'
+    :return: a pandas dataframe containing income
+    """
+    url = get_income_url(stock_symbol)
+    return get_df_from_web(url)
 
 
 def cleaned_df(df):
@@ -207,7 +224,6 @@ if __name__ == '__main__':
     # income_df = get_income_df_from_web(stock_symbol)
 
     print(income_df)
-
     # write income dataframe to a csv file
     # many programs can read this format e.g. pandas, excel
     income_df.to_csv('./data/' + stock_symbol + '_income.csv')
