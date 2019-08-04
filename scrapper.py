@@ -87,6 +87,9 @@ def get_dataframe(url, css_id, column_names):
     # read_html returns a list of dataframes, get the first one
     df = dataframes[0]
 
+    # drop rows with all values NaN (Not A Number)
+    df = df.dropna(how='all')
+
     # slice first 6 columns. careful this deleted dollar amounts!
     # df = df.iloc[:, 0:5]
 
