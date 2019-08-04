@@ -65,24 +65,21 @@ def get_html(url, css_id):
         browser.quit()
 
 
-def get_dataframe(url, css_id, column_names):
+def get_dataframe(url, css_id):
     """
     :param url: url to load
     :param css_id: id of element to select
-    :param column_names: column names for dataframe
     :return: dataframe
     """
 
     # to read from local data file, uncomment these.
     # this can be handy during development
-    dataframes = pd.read_html('./data/html.html', header=0, index_col=0, skiprows=0)
-
-    # FIXME: html has dollar amounts but dataframes don't
+    # dataframes = pd.read_html('./data/html.html', header=0, index_col=0, skiprows=0)
 
     # to read from web, uncomment these
-    # html = get_html(url, css_id)
-    # print('html:\n', html)
-    # dataframes = pd.read_html(html, header=0, index_col=0, skiprows=0)
+    html = get_html(url, css_id)
+    print('html:\n', html)
+    dataframes = pd.read_html(html, header=0, index_col=0, skiprows=0)
 
     # read_html returns a list of dataframes, get the first one
     df = dataframes[0]
@@ -90,8 +87,18 @@ def get_dataframe(url, css_id, column_names):
     # drop rows with all values NaN (Not A Number)
     df = df.dropna(how='all')
 
-    # slice first 6 columns. careful this deleted dollar amounts!
-    # df = df.iloc[:, 0:5]
+    # print(df.columns.values)
+    # get desired column names. The values may change over time.
+    column_names = df.columns.values[1:5]
+    print(column_names)
+    # ['12/31/2018' '12/31/2017' '12/31/2016' '12/31/2015']
+
+    # the dollar amounts are in columns "Unnamed:25 through Unnamed:28
+    # slice to keep columns with dollar amounts
+    # df = df.loc[:, "Trend":"Unnamed: 24"]
+    df = df.loc[:, "Unnamed: 25": 'Unnamed: 28']
+    # re-add column names
+    df.columns = column_names
 
     return df
 
@@ -104,9 +111,7 @@ if __name__ == '__main__':
 
     css_id = 'financials-iframe-wrap'
 
-    column_names = []
-
-    df = get_dataframe(url, css_id, column_names)
+    df = get_dataframe(url, css_id)
     # write dataframe to a csv file
     df.to_csv('./data/data.csv')
 
