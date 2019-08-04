@@ -89,7 +89,7 @@ def get_html_from_web(url):
         browser.quit()
 
 
-def get_dataframe_from_file(filename):
+def get_dataframe_from_html_file(filename):
     """
     # reads data from local file. This can be handy during development.
     :param filename: e.g. './data/<stock_symbol>.html', './data/nflx.html'
@@ -217,16 +217,18 @@ if __name__ == '__main__':
 
     stock_symbol = 'nflx'
 
-    filename = get_income_html_filename(stock_symbol)
-    income_df = get_dataframe_from_file(filename)
+    income_filename = get_income_html_filename(stock_symbol)
+    income_df = get_dataframe_from_html_file(income_filename)
 
     # alternatively
     # income_df = get_income_df_from_web(stock_symbol)
+    # balance_sheet_df = get_balance_sheet_df_from_web(stock_symbol)
 
-    print(income_df)
-    # write income dataframe to a csv file
+    # print(income_df)
+    # write dataframe to a csv file
     # many programs can read this format e.g. pandas, excel
-    income_df.to_csv('./data/' + stock_symbol + '_income.csv')
+    # income_df.to_csv('./data/' + stock_symbol + '_income.csv')
+    # balance_sheet_df.to_csv('./data/' + stock_symbol + '_balance_sheet.csv')
 
     revenue = get_revenue(income_df)
     print(revenue)
