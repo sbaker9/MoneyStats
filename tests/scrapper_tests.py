@@ -4,9 +4,9 @@ import scrapper
 
 class ScrapperTests(unittest.TestCase):
 
-    def test_get_html_filename(self):
-        self.assertEqual(scrapper.get_html_filename('nflx'), './data/nflx.html')
-        self.assertEqual(scrapper.get_html_filename('appl'), './data/appl.html')
+    def test_get_income_html_filename(self):
+        self.assertEqual(scrapper.get_income_html_filename('nflx'), './data/nflx_income.html')
+        self.assertEqual(scrapper.get_income_html_filename('appl'), './data/appl_income.html')
 
     def test_get_income_url(self):
         self.assertEqual(scrapper.get_income_url('nflx'), 'https://www.nasdaq.com/symbol/nflx/financials')

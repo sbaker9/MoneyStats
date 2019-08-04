@@ -15,13 +15,13 @@ https://github.com/beepscore/websearcher
 css_id = 'financials-iframe-wrap'
 
 
-def get_html_filename(stock_symbol):
+def get_income_html_filename(stock_symbol):
     """
     :param stock_symbol: used to construct the html data filename, e.g. 'nflx'
     :return: string representing filename
-    e.g. './data/<stock_symbol>.html', './data/nflx.html'
+    e.g. './data/<stock_symbol>.html', './data/nflx_income.html'
     """
-    path = './data/' + stock_symbol + '.html'
+    path = './data/' + stock_symbol + '_income.html'
     return path
 
 
@@ -107,11 +107,11 @@ def get_dataframe_from_file(filename):
     return df
 
 
-def get_dataframe_from_web(stock_symbol):
+def get_income_df_from_web(stock_symbol):
     """
     constructs a url from stock_symbol, downloads web page, returns dataframe
     :param stock_symbol: e.g. 'nflx'
-    :return: a pandas dataframe
+    :return: a pandas dataframe containing income
     """
 
     url = get_income_url(stock_symbol)
@@ -127,7 +127,7 @@ def get_dataframe_from_web(stock_symbol):
 
 def cleaned_df(df):
     """
-    :param df: dataframe of the form returned by get_dataframe_from_web or get_dataframe_from_file
+    :param df: dataframe of the form returned by get_income_df_from_web or get_dataframe_from_file
     :return: dataframe with 4 columns containing amounts in thousands of dollars $000
     """
     # drop rows with all values NaN (Not A Number)
@@ -200,11 +200,11 @@ if __name__ == '__main__':
 
     stock_symbol = 'nflx'
 
-    filename = get_html_filename(stock_symbol)
+    filename = get_income_html_filename(stock_symbol)
     df = get_dataframe_from_file(filename)
 
     # alternatively
-    # df = get_dataframe_from_web(stock_symbol)
+    # df = get_income_df_from_web(stock_symbol)
 
     print(df)
 
