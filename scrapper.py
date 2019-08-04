@@ -117,4 +117,7 @@ if __name__ == '__main__':
 
     print(df)
 
-
+    # pandas loc slice [:, 0:1] gets all rows, columns 0 through 1 inclusive
+    newest_year_df = df.iloc[:, 0:1]
+    revenue = newest_year_df.loc['Total Revenue', :].values[0]
+    print(revenue)
