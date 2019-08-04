@@ -15,6 +15,28 @@ https://github.com/beepscore/websearcher
 css_id = 'financials-iframe-wrap'
 
 
+def get_balance_sheet_csv_filename(stock_symbol):
+    """
+    :param stock_symbol: used to construct the csv data filename, e.g. 'nflx'
+    :return: string representing filename
+    e.g. './data/<stock_symbol>.html', './data/nflx_income.html'
+    """
+    path = './data/' + stock_symbol + '_balance_sheet.csv'
+    return path
+
+
+def get_balance_sheet_url(stock_symbol):
+    """
+    :param stock_symbol: e.g. 'nflx'
+    :return: string representing url for balance seet
+    e.g. 'https://www.nasdaq.com/symbol/nflx/financials?query=balance-sheet'
+    """
+    financials_url = get_income_url(stock_symbol)
+    query = '?query=balance-sheet'
+    url_string = financials_url + query
+    return url_string
+
+
 def get_income_html_filename(stock_symbol):
     """
     :param stock_symbol: used to construct the html data filename, e.g. 'nflx'
@@ -35,18 +57,6 @@ def get_income_url(stock_symbol):
     path = '/symbol/' + stock_symbol + '/financials'
 
     url_string = base_url + path
-    return url_string
-
-
-def get_balance_sheet_url(stock_symbol):
-    """
-    :param stock_symbol: e.g. 'nflx'
-    :return: string representing url for balance seet
-    e.g. 'https://www.nasdaq.com/symbol/nflx/financials?query=balance-sheet'
-    """
-    financials_url = get_income_url(stock_symbol)
-    query = '?query=balance-sheet'
-    url_string = financials_url + query
     return url_string
 
 
@@ -87,6 +97,19 @@ def get_html_from_web(url):
 
     finally:
         browser.quit()
+
+
+# FIXME
+def get_dataframe_from_csv_file(filename):
+    """
+    # reads data from local file. This can be handy during development.
+    :param filename: e.g. './data/<stock_symbol>_balance_sheet.csv', './data/nflx_balance_sheet.csv'
+    :return: a pandas dataframe
+    """
+
+    df = pd.read_csv(filename, header=0, index_col=0, skiprows=0)
+    df = cleaned_df(df)
+    return df
 
 
 def get_dataframe_from_html_file(filename):
@@ -177,7 +200,6 @@ def get_revenue(df):
     return revenue
 
 
-# TODO: get dataframe containing equity
 # def get_equity(df):
 #     """
 #     :param df: dataframe containing equity
@@ -219,6 +241,10 @@ if __name__ == '__main__':
 
     income_filename = get_income_html_filename(stock_symbol)
     income_df = get_dataframe_from_html_file(income_filename)
+    balance_sheet_filename = get_balance_sheet_csv_filename(stock_symbol)
+
+    # FIXME
+    # balance_sheet_df = get_dataframe_from_csv_file(balance_sheet_filename)
 
     # alternatively
     # income_df = get_income_df_from_web(stock_symbol)
@@ -232,3 +258,6 @@ if __name__ == '__main__':
 
     revenue = get_revenue(income_df)
     print(revenue)
+
+    # equity = get_equity(balance_sheet_df)
+    # print(equity)
