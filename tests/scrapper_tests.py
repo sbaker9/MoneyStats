@@ -16,7 +16,7 @@ class ScrapperTests(unittest.TestCase):
                          'https://www.nasdaq.com/symbol/nflx/financials?query=balance-sheet')
 
     def test_get_dataframe_from_file(self):
-        df = scrapper.get_dataframe_from_file('../data/nflx.html')
+        df = scrapper.get_dataframe_from_file('../data/nflx_income.html')
         # 18 rows x 4 columns
         self.assertEqual(df.shape, (18, 4))
 
@@ -28,7 +28,7 @@ class ScrapperTests(unittest.TestCase):
         self.assertAlmostEqual(scrapper.dollars('$123,456,789)'), 123456789)
 
     def test_get_revenue(self):
-        df = scrapper.get_dataframe_from_file('../data/nflx.html')
+        df = scrapper.get_dataframe_from_file('../data/nflx_income.html')
         revenue = scrapper.get_revenue(df)
         self.assertAlmostEqual(revenue, 15794341.0)
 

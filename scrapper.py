@@ -208,9 +208,9 @@ if __name__ == '__main__':
 
     print(df)
 
-    # write dataframe to a csv file
+    # write income dataframe to a csv file
     # many programs can read this format e.g. pandas, excel
-    df.to_csv('./data/' + stock_symbol + '.csv')
+    df.to_csv('./data/' + stock_symbol + '_income.csv')
 
     revenue = get_revenue(df)
     print(revenue)
