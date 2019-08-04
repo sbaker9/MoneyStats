@@ -25,16 +25,28 @@ def get_html_filename(stock_symbol):
     return path
 
 
-def get_url(stock_symbol):
+def get_income_url(stock_symbol):
     """
     :param stock_symbol: e.g. 'nflx'
-    :return: string representing url
+    :return: string representing url for income
     e.g. 'https://www.nasdaq.com/symbol/nflx/financials'
     """
     base_url = 'https://www.nasdaq.com'
     path = '/symbol/' + stock_symbol + '/financials'
 
     url_string = base_url + path
+    return url_string
+
+
+def get_balance_sheet_url(stock_symbol):
+    """
+    :param stock_symbol: e.g. 'nflx'
+    :return: string representing url for balance seet
+    e.g. 'https://www.nasdaq.com/symbol/nflx/financials?query=balance-sheet'
+    """
+    financials_url = get_income_url(stock_symbol)
+    query = '?query=balance-sheet'
+    url_string = financials_url + query
     return url_string
 
 
@@ -102,15 +114,15 @@ def get_dataframe_from_web(stock_symbol):
     :return: a pandas dataframe
     """
 
-    url = get_url(stock_symbol)
+    url = get_income_url(stock_symbol)
     html = get_html_from_web(url)
     dataframes = pd.read_html(html, header=0, index_col=0, skiprows=0)
 
     # read_html returns a list of dataframes, get the first one
-    df = dataframes[0]
+    df0 = dataframes[0]
 
-    df = cleaned_df(df)
-    return df
+    df_cleaned = cleaned_df(df0)
+    return df_cleaned
 
 
 def cleaned_df(df):
@@ -129,7 +141,7 @@ def cleaned_df(df):
 
     # the dollar amounts are in columns Unnamed:25 through Unnamed:28
     # slice to keep columns with dollar amounts
-    df = df.loc[:, "Unnamed: 25": 'Unnamed: 28']
+    df = df.loc[:, 'Unnamed: 25': 'Unnamed: 28']
     # re-add column names
     df.columns = column_names
 
@@ -139,13 +151,26 @@ def cleaned_df(df):
 def get_revenue(df):
     """
     :param df:
-    :return: float
+    :return: total revenue as a float
     """
     # pandas loc slice [:, 0:1] gets all rows, columns 0 through 1 inclusive
     newest_year_df = df.iloc[:, 0:1]
     revenue_dollar_string = newest_year_df.loc['Total Revenue', :].values[0]
     revenue = dollars(revenue_dollar_string)
     return revenue
+
+
+# TODO: get dataframe containing equity
+# def get_equity(df):
+#     """
+#     :param df: dataframe containing equity
+#     :return: equity as a float
+#     """
+#     # pandas loc slice [:, 0:1] gets all rows, columns 0 through 1 inclusive
+#     newest_year_df = df.iloc[:, 0:1]
+#     equity_dollar_string = newest_year_df.loc['Equity', :].values[0]
+#     equity = dollars(equity_dollar_string)
+#     return equity
 
 
 def dollars(dollar_string):
