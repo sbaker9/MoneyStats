@@ -201,16 +201,16 @@ if __name__ == '__main__':
     stock_symbol = 'nflx'
 
     filename = get_income_html_filename(stock_symbol)
-    df = get_dataframe_from_file(filename)
+    income_df = get_dataframe_from_file(filename)
 
     # alternatively
-    # df = get_income_df_from_web(stock_symbol)
+    # income_df = get_income_df_from_web(stock_symbol)
 
-    print(df)
+    print(income_df)
 
     # write income dataframe to a csv file
     # many programs can read this format e.g. pandas, excel
-    df.to_csv('./data/' + stock_symbol + '_income.csv')
+    income_df.to_csv('./data/' + stock_symbol + '_income.csv')
 
-    revenue = get_revenue(df)
+    revenue = get_revenue(income_df)
     print(revenue)

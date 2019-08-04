@@ -16,9 +16,9 @@ class ScrapperTests(unittest.TestCase):
                          'https://www.nasdaq.com/symbol/nflx/financials?query=balance-sheet')
 
     def test_get_dataframe_from_file(self):
-        df = scrapper.get_dataframe_from_file('../data/nflx_income.html')
+        income_df = scrapper.get_dataframe_from_file('../data/nflx_income.html')
         # 18 rows x 4 columns
-        self.assertEqual(df.shape, (18, 4))
+        self.assertEqual(income_df.shape, (18, 4))
 
     def test_dollars(self):
         # use assertAlmostEqual instead of assertEqual to allow for float tolerance
