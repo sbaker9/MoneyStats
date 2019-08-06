@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 import pandas as pd
 import filename_constructor
+import url_constructor
 
 
 """
@@ -107,7 +108,7 @@ def get_balance_sheet_df_from_web(stock_symbol):
     :param stock_symbol: e.g. 'nflx'
     :return: a pandas dataframe containing balance sheet
     """
-    url = filename_constructor.get_balance_sheet_url(stock_symbol)
+    url = url_constructor.get_balance_sheet_url(stock_symbol)
     return get_df_from_web(url)
 
 
@@ -117,7 +118,7 @@ def get_income_df_from_web(stock_symbol):
     :param stock_symbol: e.g. 'nflx'
     :return: a pandas dataframe containing income
     """
-    url = filename_constructor.get_income_url(stock_symbol)
+    url = url_constructor.get_income_url(stock_symbol)
     return get_df_from_web(url)
 
 
