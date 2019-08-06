@@ -40,7 +40,7 @@ class ScrapperTests(unittest.TestCase):
         unit test passes, but get_dataframe_from_html_file throws warning
         ../Users/stevebaker/anaconda3/envs/beepscore/lib/python3.6/importlib/_bootstrap.py:219:
             ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-        https://github.com/astropy/astropy/issues/6025
+        https://github.com/wireservice/csvkit/issues/937
         """
         income_df = scrapper.get_dataframe_from_html_file('../data/nflx_income.html')
         # 18 rows x 4 columns
@@ -51,7 +51,7 @@ class ScrapperTests(unittest.TestCase):
         unit test passes, but get_dataframe_from_html_file throws warning
         ../Users/stevebaker/anaconda3/envs/beepscore/lib/python3.6/importlib/_bootstrap.py:219:
             ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
-        https://github.com/astropy/astropy/issues/6025
+        https://github.com/wireservice/csvkit/issues/937
         """
 
         df = scrapper.get_dataframe_from_html_file('../data/nflx_income.html')
