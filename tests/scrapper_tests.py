@@ -12,12 +12,20 @@ class ScrapperTests(unittest.TestCase):
         self.assertEqual(scrapper.get_balance_sheet_url('nflx'),
                          'https://www.nasdaq.com/symbol/nflx/financials?query=balance-sheet')
 
+    def test_get_income_csv_filename(self):
+        self.assertEqual(scrapper.get_income_csv_filename('nflx'), './data/nflx_income.csv')
+        self.assertEqual(scrapper.get_income_csv_filename('appl'), './data/appl_income.csv')
+
     def test_get_income_html_filename(self):
         self.assertEqual(scrapper.get_income_html_filename('nflx'), './data/nflx_income.html')
         self.assertEqual(scrapper.get_income_html_filename('appl'), './data/appl_income.html')
 
     def test_get_income_url(self):
         self.assertEqual(scrapper.get_income_url('nflx'), 'https://www.nasdaq.com/symbol/nflx/financials')
+
+    def test_get_dataframe_from_csv_file(self):
+        balance_sheet_df = scrapper.get_dataframe_from_csv_file('../data/nflx_balance_sheet.csv')
+        self.assertEqual(balance_sheet_df.shape, (30, 4))
 
     def test_get_dataframe_from_file(self):
         income_df = scrapper.get_dataframe_from_html_file('../data/nflx_income.html')

@@ -13,6 +13,8 @@ https://github.com/beepscore/websearcher
 
 # css id used to select html containing table within page html. Includes a little additional html
 css_id = 'financials-iframe-wrap'
+# use a separator other than ',' to ignore commas within amounts
+separator = '|'
 
 
 def get_balance_sheet_csv_filename(stock_symbol):
@@ -35,6 +37,16 @@ def get_balance_sheet_url(stock_symbol):
     query = '?query=balance-sheet'
     url_string = financials_url + query
     return url_string
+
+
+def get_income_csv_filename(stock_symbol):
+    """
+    :param stock_symbol: used to construct the csv data filename, e.g. 'nflx'
+    :return: string representing filename
+    e.g. './data/<stock_symbol>_income.csv', './data/nflx_income.html'
+    """
+    path = './data/' + stock_symbol + '_income.csv'
+    return path
 
 
 def get_income_html_filename(stock_symbol):
@@ -107,8 +119,10 @@ def get_dataframe_from_csv_file(filename):
     :return: a pandas dataframe
     """
 
-    df = pd.read_csv(filename, header=0, index_col=0, skiprows=0)
-    df = cleaned_df(df)
+    df = pd.read_csv(filename, header=0, index_col=0, skiprows=0, sep=separator)
+    print(df.shape)
+    print(df.head)
+    # df = cleaned_income_df(df)
     return df
 
 
@@ -124,7 +138,7 @@ def get_dataframe_from_html_file(filename):
     # read_html returns a list of dataframes, get the first one
     df = dataframes[0]
 
-    df = cleaned_df(df)
+    df = cleaned_income_df(df)
     return df
 
 
@@ -141,7 +155,7 @@ def get_df_from_web(url):
     # read_html returns a list of dataframes, get the first one
     df0 = dataframes[0]
 
-    df_cleaned = cleaned_df(df0)
+    df_cleaned = cleaned_income_df(df0)
     return df_cleaned
 
 
@@ -165,7 +179,7 @@ def get_income_df_from_web(stock_symbol):
     return get_df_from_web(url)
 
 
-def cleaned_df(df):
+def cleaned_income_df(df):
     """
     :param df: dataframe of the form returned by get_income_df_from_web or get_dataframe_from_file
     :return: dataframe with 4 columns containing amounts in thousands of dollars $000
@@ -239,25 +253,22 @@ if __name__ == '__main__':
 
     stock_symbol = 'nflx'
 
-    income_filename = get_income_html_filename(stock_symbol)
-    income_df = get_dataframe_from_html_file(income_filename)
-    balance_sheet_filename = get_balance_sheet_csv_filename(stock_symbol)
-
-    # FIXME
-    # balance_sheet_df = get_dataframe_from_csv_file(balance_sheet_filename)
-
+    # income_filename = get_income_html_filename(stock_symbol)
+    # income_df = get_dataframe_from_html_file(income_filename)
     # alternatively
     # income_df = get_income_df_from_web(stock_symbol)
-    # balance_sheet_df = get_balance_sheet_df_from_web(stock_symbol)
-
-    # print(income_df)
     # write dataframe to a csv file
     # many programs can read this format e.g. pandas, excel
-    # income_df.to_csv('./data/' + stock_symbol + '_income.csv')
-    # balance_sheet_df.to_csv('./data/' + stock_symbol + '_balance_sheet.csv')
+    # income_df.to_csv('./data/' + stock_symbol + '_income.csv', sep=separator)
 
-    revenue = get_revenue(income_df)
-    print(revenue)
+    balance_sheet_csv_filename = get_balance_sheet_csv_filename(stock_symbol)
+    balance_sheet_df = get_dataframe_from_csv_file(balance_sheet_csv_filename)
+    # alternatively
+    # balance_sheet_df = get_balance_sheet_df_from_web(stock_symbol)
+    # balance_sheet_df.to_csv(balance_sheet_csv_filename, sep=separator)
+
+    # revenue = get_revenue(income_df)
+    # print(revenue)
 
     # equity = get_equity(balance_sheet_df)
     # print(equity)
