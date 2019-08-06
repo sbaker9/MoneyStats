@@ -28,11 +28,6 @@ class ScrapperTests(unittest.TestCase):
         # 30 rows x 4 columns
         self.assertEqual(balance_sheet_df.shape, (30, 4))
 
-    def test_get_dataframe_from_file(self):
-        income_df = scrapper.get_dataframe_from_html_file('../data/nflx_income.html')
-        # 18 rows x 4 columns
-        self.assertEqual(income_df.shape, (18, 4))
-
     def test_dollars(self):
         # use assertAlmostEqual instead of assertEqual to allow for float tolerance
         self.assertAlmostEqual(scrapper.dollars('$123.45'), 123.45)
@@ -40,7 +35,25 @@ class ScrapperTests(unittest.TestCase):
 
         self.assertAlmostEqual(scrapper.dollars('$123,456,789)'), 123456789)
 
+    def test_get_dataframe_from_file(self):
+        """
+        unit test passes, but get_dataframe_from_html_file throws warning
+        ../Users/stevebaker/anaconda3/envs/beepscore/lib/python3.6/importlib/_bootstrap.py:219:
+            ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+        https://github.com/astropy/astropy/issues/6025
+        """
+        income_df = scrapper.get_dataframe_from_html_file('../data/nflx_income.html')
+        # 18 rows x 4 columns
+        self.assertEqual(income_df.shape, (18, 4))
+
     def test_get_revenue(self):
+        """
+        unit test passes, but get_dataframe_from_html_file throws warning
+        ../Users/stevebaker/anaconda3/envs/beepscore/lib/python3.6/importlib/_bootstrap.py:219:
+            ImportWarning: can't resolve package from __spec__ or __package__, falling back on __name__ and __path__
+        https://github.com/astropy/astropy/issues/6025
+        """
+
         df = scrapper.get_dataframe_from_html_file('../data/nflx_income.html')
         revenue = scrapper.get_revenue(df)
         self.assertAlmostEqual(revenue, 15794341.0)
