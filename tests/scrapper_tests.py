@@ -25,6 +25,7 @@ class ScrapperTests(unittest.TestCase):
 
     def test_get_dataframe_from_csv_file(self):
         balance_sheet_df = scrapper.get_dataframe_from_csv_file('../data/nflx_balance_sheet.csv')
+        # 30 rows x 4 columns
         self.assertEqual(balance_sheet_df.shape, (30, 4))
 
     def test_get_dataframe_from_file(self):
@@ -43,6 +44,11 @@ class ScrapperTests(unittest.TestCase):
         df = scrapper.get_dataframe_from_html_file('../data/nflx_income.html')
         revenue = scrapper.get_revenue(df)
         self.assertAlmostEqual(revenue, 15794341.0)
+
+    def test_get_equity(self):
+        df = scrapper.get_dataframe_from_csv_file('../data/nflx_balance_sheet.csv')
+        equity = scrapper.get_equity(df)
+        self.assertAlmostEqual(equity, 5238765.0)
 
 
 if __name__ == '__main__':

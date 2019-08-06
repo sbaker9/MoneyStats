@@ -111,7 +111,6 @@ def get_html_from_web(url):
         browser.quit()
 
 
-# FIXME
 def get_dataframe_from_csv_file(filename):
     """
     # reads data from local file. This can be handy during development.
@@ -120,9 +119,6 @@ def get_dataframe_from_csv_file(filename):
     """
 
     df = pd.read_csv(filename, header=0, index_col=0, skiprows=0, sep=separator)
-    print(df.shape)
-    print(df.head)
-    # df = cleaned_income_df(df)
     return df
 
 
@@ -214,16 +210,16 @@ def get_revenue(df):
     return revenue
 
 
-# def get_equity(df):
-#     """
-#     :param df: dataframe containing equity
-#     :return: equity as a float
-#     """
-#     # pandas loc slice [:, 0:1] gets all rows, columns 0 through 1 inclusive
-#     newest_year_df = df.iloc[:, 0:1]
-#     equity_dollar_string = newest_year_df.loc['Equity', :].values[0]
-#     equity = dollars(equity_dollar_string)
-#     return equity
+def get_equity(df):
+    """
+    :param df: dataframe containing equity
+    :return: equity as a float
+    """
+    # pandas loc slice [:, 0:1] gets all rows, columns 0 through 1 inclusive
+    newest_year_df = df.iloc[:, 0:1]
+    equity_dollar_string = newest_year_df.loc['Total Equity', :].values[0]
+    equity = dollars(equity_dollar_string)
+    return equity
 
 
 def dollars(dollar_string):
@@ -270,5 +266,5 @@ if __name__ == '__main__':
     # revenue = get_revenue(income_df)
     # print(revenue)
 
-    # equity = get_equity(balance_sheet_df)
-    # print(equity)
+    equity = get_equity(balance_sheet_df)
+    print(equity)
