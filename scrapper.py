@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 import pandas as pd
+import filename_constructor
 
 
 """
@@ -15,61 +16,6 @@ https://github.com/beepscore/websearcher
 css_id = 'financials-iframe-wrap'
 # use a separator other than ',' to ignore commas within amounts
 separator = '|'
-
-
-def get_balance_sheet_csv_filename(stock_symbol):
-    """
-    :param stock_symbol: used to construct the csv data filename, e.g. 'nflx'
-    :return: string representing filename
-    e.g. './data/<stock_symbol>.html', './data/nflx_income.html'
-    """
-    path = './data/' + stock_symbol + '_balance_sheet.csv'
-    return path
-
-
-def get_balance_sheet_url(stock_symbol):
-    """
-    :param stock_symbol: e.g. 'nflx'
-    :return: string representing url for balance seet
-    e.g. 'https://www.nasdaq.com/symbol/nflx/financials?query=balance-sheet'
-    """
-    financials_url = get_income_url(stock_symbol)
-    query = '?query=balance-sheet'
-    url_string = financials_url + query
-    return url_string
-
-
-def get_income_csv_filename(stock_symbol):
-    """
-    :param stock_symbol: used to construct the csv data filename, e.g. 'nflx'
-    :return: string representing filename
-    e.g. './data/<stock_symbol>_income.csv', './data/nflx_income.html'
-    """
-    path = './data/' + stock_symbol + '_income.csv'
-    return path
-
-
-def get_income_html_filename(stock_symbol):
-    """
-    :param stock_symbol: used to construct the html data filename, e.g. 'nflx'
-    :return: string representing filename
-    e.g. './data/<stock_symbol>.html', './data/nflx_income.html'
-    """
-    path = './data/' + stock_symbol + '_income.html'
-    return path
-
-
-def get_income_url(stock_symbol):
-    """
-    :param stock_symbol: e.g. 'nflx'
-    :return: string representing url for income
-    e.g. 'https://www.nasdaq.com/symbol/nflx/financials'
-    """
-    base_url = 'https://www.nasdaq.com'
-    path = '/symbol/' + stock_symbol + '/financials'
-
-    url_string = base_url + path
-    return url_string
 
 
 def get_html_from_web(url):
@@ -161,7 +107,7 @@ def get_balance_sheet_df_from_web(stock_symbol):
     :param stock_symbol: e.g. 'nflx'
     :return: a pandas dataframe containing balance sheet
     """
-    url = get_balance_sheet_url(stock_symbol)
+    url = filename_constructor.get_balance_sheet_url(stock_symbol)
     return get_df_from_web(url)
 
 
@@ -171,7 +117,7 @@ def get_income_df_from_web(stock_symbol):
     :param stock_symbol: e.g. 'nflx'
     :return: a pandas dataframe containing income
     """
-    url = get_income_url(stock_symbol)
+    url = filename_constructor.get_income_url(stock_symbol)
     return get_df_from_web(url)
 
 
@@ -249,15 +195,15 @@ if __name__ == '__main__':
 
     stock_symbol = 'nflx'
 
-    # income_filename = get_income_html_filename(stock_symbol)
-    # income_df = get_dataframe_from_html_file(income_filename)
+    # income_csv_filename = filename_constructor.get_income_csv_filename(stock_symbol)
+    # income_html_filename = filename_constructor.get_income_html_filename(stock_symbol)
+    # income_df = get_dataframe_from_html_file(income_html_filename)
     # alternatively
     # income_df = get_income_df_from_web(stock_symbol)
     # write dataframe to a csv file
-    # many programs can read this format e.g. pandas, excel
-    # income_df.to_csv('./data/' + stock_symbol + '_income.csv', sep=separator)
+    # income_df.to_csv(income_csv_filename, sep=separator)
 
-    balance_sheet_csv_filename = get_balance_sheet_csv_filename(stock_symbol)
+    balance_sheet_csv_filename = filename_constructor.get_balance_sheet_csv_filename(stock_symbol)
     balance_sheet_df = get_dataframe_from_csv_file(balance_sheet_csv_filename)
     # alternatively
     # balance_sheet_df = get_balance_sheet_df_from_web(stock_symbol)
