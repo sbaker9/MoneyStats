@@ -71,7 +71,11 @@ def get_dataframe_from_csv_file(filename):
 
 def get_dataframe_from_html_file(filename):
     """
-    # reads data from local file. This can be handy during development.
+    # reads data from local html file.
+    This can be handy during development.
+    For example you may load a web page and manually save the html into an .html file
+    Then load .html file and adjust parsing/cleaning methods.
+    After initial development, csv is a better format for use with Pandas.
     :param filename: e.g. './data/<stock_symbol>.html', './data/nflx.html'
     :return: a pandas dataframe
     """
