@@ -147,26 +147,24 @@ def cleaned_income_df(df):
 
 def get_revenue(df):
     """
-    :param df:
-    :return: total revenue as a float
+    :param df: dataframe containing row with index 'Total Revenue'
+    :return: total revenue as a Pandas series of float
     """
-    # pandas loc slice [:, 0:1] gets all rows, columns 0 through 1 inclusive
-    newest_year_df = df.iloc[:, 0:1]
-    revenue_dollar_string = newest_year_df.loc['Total Revenue', :].values[0]
-    revenue = dollars(revenue_dollar_string)
-    return revenue
+    revenue_series = df.loc['Total Revenue', :]
+    # apply dollars() to convert string to float
+    revenue_series = revenue_series.apply(dollars)
+    return revenue_series
 
 
 def get_equity(df):
     """
-    :param df: dataframe containing equity
-    :return: equity as a float
+    :param df: dataframe containing row with index 'Total Equity'
+    :return: equity as a Pandas series of float
     """
-    # pandas loc slice [:, 0:1] gets all rows, columns 0 through 1 inclusive
-    newest_year_df = df.iloc[:, 0:1]
-    equity_dollar_string = newest_year_df.loc['Total Equity', :].values[0]
-    equity = dollars(equity_dollar_string)
-    return equity
+    equity_series = df.loc['Total Equity', :]
+    # apply dollars() to convert string to float
+    equity_series = equity_series.apply(dollars)
+    return equity_series
 
 
 def dollars(dollar_string):
@@ -214,4 +212,3 @@ if __name__ == '__main__':
     # print(revenue)
 
     equity = get_equity(balance_sheet_df)
-    print(equity)

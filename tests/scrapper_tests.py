@@ -37,12 +37,15 @@ class ScrapperTests(unittest.TestCase):
 
         df = scrapper.get_dataframe_from_html_file('../data/nflx_income.html')
         revenue = scrapper.get_revenue(df)
-        self.assertAlmostEqual(revenue, 15794341.0)
+        self.assertAlmostEqual(revenue.iloc[0], 15794341.0)
+        self.assertAlmostEqual(revenue.iloc[1], 11692713.0)
+        self.assertAlmostEqual(revenue.iloc[2], 8830669.0)
+        self.assertAlmostEqual(revenue.iloc[3], 6779511.0)
 
     def test_get_equity(self):
         df = scrapper.get_dataframe_from_csv_file('../data/nflx_balance_sheet.csv')
         equity = scrapper.get_equity(df)
-        self.assertAlmostEqual(equity, 5238765.0)
+        self.assertAlmostEqual(equity.iloc[0], 5238765.0)
 
 
 if __name__ == '__main__':
