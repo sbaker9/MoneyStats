@@ -212,6 +212,16 @@ def dollars(dollar_string):
     return amount
 
 
+def get_roic(income_df, balance_sheet_df):
+    """
+    :return: roic as a Pandas series of float
+    """
+    net_income_series = get_net_income(income_df)
+    equity_series = get_equity(balance_sheet_df)
+    total_liabilities_series = get_total_liabilities(balance_sheet_df)
+    return net_income_series / (equity_series + total_liabilities_series)
+
+
 if __name__ == '__main__':
 
     stock_symbol = 'nflx'

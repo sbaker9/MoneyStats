@@ -64,6 +64,15 @@ class ScrapperTests(unittest.TestCase):
         self.assertAlmostEqual(total_liabilities.iloc[2], 10906810.0)
         self.assertAlmostEqual(total_liabilities.iloc[3], 7979445.0)
 
+    def test_get_roic(self):
+        income_df = scrapper.get_dataframe_from_csv_file('../data/nflx_income.csv')
+        balance_sheet_df = scrapper.get_dataframe_from_csv_file('../data/nflx_balance_sheet.csv')
+        roic = scrapper.get_roic(income_df, balance_sheet_df)
+        self.assertAlmostEqual(roic.iloc[0], 0.046632145497104843)
+        self.assertAlmostEqual(roic.iloc[1], 0.029397600830011788)
+        self.assertAlmostEqual(roic.iloc[2], 0.013739851221165545)
+        self.assertAlmostEqual(roic.iloc[3], 0.012020244105801201)
+
 
 if __name__ == '__main__':
     unittest.main()
