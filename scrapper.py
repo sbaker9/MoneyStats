@@ -145,6 +145,17 @@ def cleaned_income_df(df):
     return df
 
 
+def get_net_income(df):
+    """
+    :param df: dataframe containing row with index 'Net Income'
+    :return: total net_income as a Pandas series of float
+    """
+    net_income_series = df.loc['Net Income', :]
+    # apply dollars() to convert string to float
+    net_income_series = net_income_series.apply(dollars)
+    return net_income_series
+
+
 def get_revenue(df):
     """
     :param df: dataframe containing row with index 'Total Revenue'

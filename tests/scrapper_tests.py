@@ -27,6 +27,15 @@ class ScrapperTests(unittest.TestCase):
         # 18 rows x 4 columns
         self.assertEqual(income_df.shape, (18, 4))
 
+    def test_get_net_income(self):
+
+        df = scrapper.get_dataframe_from_csv_file('../data/nflx_income.csv')
+        net_income = scrapper.get_net_income(df)
+        self.assertAlmostEqual(net_income.iloc[0], 1211242.0)
+        self.assertAlmostEqual(net_income.iloc[1], 558929.0)
+        self.assertAlmostEqual(net_income.iloc[2], 186678.0)
+        self.assertAlmostEqual(net_income.iloc[3], 122641.0)
+
     def test_get_revenue(self):
         """
         unit test passes, but get_dataframe_from_html_file throws warning
