@@ -47,6 +47,14 @@ class ScrapperTests(unittest.TestCase):
         equity = scrapper.get_equity(df)
         self.assertAlmostEqual(equity.iloc[0], 5238765.0)
 
+    def test_get_total_liabilities(self):
+        df = scrapper.get_dataframe_from_csv_file('../data/nflx_balance_sheet.csv')
+        total_liabilities = scrapper.get_total_liabilities(df)
+        self.assertAlmostEqual(total_liabilities.iloc[0], 20735635.0)
+        self.assertAlmostEqual(total_liabilities.iloc[1], 15430786.0)
+        self.assertAlmostEqual(total_liabilities.iloc[2], 10906810.0)
+        self.assertAlmostEqual(total_liabilities.iloc[3], 7979445.0)
+
 
 if __name__ == '__main__':
     unittest.main()

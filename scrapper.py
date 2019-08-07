@@ -167,6 +167,17 @@ def get_equity(df):
     return equity_series
 
 
+def get_total_liabilities(df):
+    """
+    :param df: dataframe containing row with index 'Total Liabilities'
+    :return: total liabilities as a Pandas series of float
+    """
+    total_liabilities_series = df.loc['Total Liabilities', :]
+    # apply dollars() to convert string to float
+    total_liabilities_series = total_liabilities_series.apply(dollars)
+    return total_liabilities_series
+
+
 def dollars(dollar_string):
     """
     :param dollar_string: a string representing dollars () for negative amount e.g. $(100.21)
