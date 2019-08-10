@@ -14,8 +14,8 @@ class FilenameConstructorTests(unittest.TestCase):
         self.assertEqual(filename_constructor.get_income_csv_filename('appl'), Path('./data/appl_income.csv'))
 
     def test_get_income_html_filename(self):
-        self.assertEqual(filename_constructor.get_income_html_filename('nflx'), './data/nflx_income.html')
-        self.assertEqual(filename_constructor.get_income_html_filename('appl'), './data/appl_income.html')
+        self.assertEqual(filename_constructor.get_income_html_filename('nflx'), Path('./data/nflx_income.html'))
+        self.assertEqual(filename_constructor.get_income_html_filename('appl'), Path('./data/appl_income.html'))
 
 
 if __name__ == '__main__':
