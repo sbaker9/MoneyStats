@@ -14,13 +14,13 @@ def get_balance_sheet_csv_filename(stock_symbol) -> Path:
     return path
 
 
-def get_income_csv_filename(stock_symbol):
+def get_income_csv_filename(stock_symbol) -> Path:
     """
     :param stock_symbol: used to construct the csv data filename, e.g. 'nflx'
     :return: string representing filename
-    e.g. './data/<stock_symbol>_income.csv', './data/nflx_income.html'
+    e.g. Path object './data/<stock_symbol>_income.csv', './data/nflx_income.html'
     """
-    path = './data/' + stock_symbol + '_income.csv'
+    path = Path('.').joinpath('data').joinpath(stock_symbol + '_income.csv')
     return path
 
 
