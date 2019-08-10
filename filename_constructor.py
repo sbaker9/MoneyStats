@@ -10,7 +10,8 @@ def get_balance_sheet_csv_filename(stock_symbol) -> Path:
     :return: string representing filename
     e.g. Path object ./data/<stock_symbol>.html, ./data/nflx_income.html
     """
-    path = Path('.').joinpath('data').joinpath(stock_symbol + '_balance_sheet.csv')
+    name = stock_symbol + '_balance_sheet.csv'
+    path = Path('.').joinpath('data', name)
     return path
 
 
