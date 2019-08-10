@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
-
+from pathlib import Path
 
 # many programs can read and write csv format e.g. pandas, excel
 
-def get_balance_sheet_csv_filename(stock_symbol):
+
+def get_balance_sheet_csv_filename(stock_symbol) -> Path:
     """
     :param stock_symbol: used to construct the csv data filename, e.g. 'nflx'
     :return: string representing filename
-    e.g. './data/<stock_symbol>.html', './data/nflx_income.html'
+    e.g. Path object './data/<stock_symbol>.html', './data/nflx_income.html'
     """
-    path = './data/' + stock_symbol + '_balance_sheet.csv'
+    path = Path('.').joinpath('data').joinpath(stock_symbol + '_balance_sheet.csv')
     return path
 
 
